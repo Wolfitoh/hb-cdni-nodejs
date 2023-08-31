@@ -7,6 +7,9 @@ const globalClient = new Client({
     database: 'postgres',
     password: 'S5LXhjpyHl8V',
     port: 5432,
+    ssl: {
+        rejectUnauthorized: false, // Esta línea permite la conexión sin validar el certificado SSL (¡no se recomienda en producción!)
+    }
 });
 
 // Conecta el cliente una vez al iniciar la aplicación

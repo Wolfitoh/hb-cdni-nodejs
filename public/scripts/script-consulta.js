@@ -24,6 +24,7 @@ $(document).ready(function () {
                         $('#loader').hide();
                         $('#response').show();
                         if (response.resultado.nombres != '') {
+                            confetti();
                             $('#success').show();
                             $('#sNombres').html(response.resultado.nombre_completo);
                             $('#sDNI').html(response.resultado.id);
@@ -50,7 +51,20 @@ $(document).ready(function () {
             $('#error').html('¡El número de DNI es inválido!');
         }
     });
+
+    $('#btnCerrarSesion').click(function () {
+        logout()
+    });
+
 });
+
+function logout() {
+    // Eliminar los datos de sesión almacenados en sessionStorage
+    sessionStorage.removeItem('currentUser'); // Puedes personalizar la clave 'usuario'
+
+    // Redirigir a la página de inicio de sesión u otra página que prefieras
+    window.location.href = '/'; // Cambia la URL según tus necesidades
+}
 
 function validateDniNumber(dni) {
     // Expresión regular para validar un DNI español de 8 dígitos numéricos

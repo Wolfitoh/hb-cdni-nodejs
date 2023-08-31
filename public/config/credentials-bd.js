@@ -2,10 +2,10 @@ const { Client } = require('pg');
 
 // Crea una instancia única de cliente PostgreSQL
 const globalClient = new Client({
-    user: 'admin-hb-cdni',
-    host: 'localhost',
-    database: 'bd-admin-hb-cdni',
-    password: 'hb-cdni-Admin-2OZE',
+    user: 'fl0user',
+    host: 'ep-billowing-morning-39208448.ap-southeast-1.aws.neon.tech',
+    database: 'postgres',
+    password: 'S5LXhjpyHl8V',
     port: 5432,
 });
 

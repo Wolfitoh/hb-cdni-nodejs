@@ -2,10 +2,10 @@ const { Client } = require('pg');
 
 // Crea una instancia única de cliente PostgreSQL
 const globalClient = new Client({
-    user: 'fl0user',
-    host: 'ep-billowing-morning-39208448.ap-southeast-1.aws.neon.tech',
-    database: 'postgres',
-    password: 'S5LXhjpyHl8V',
+    user: 'zaflumic',
+    host: 'silly.db.elephantsql.com',
+    database: 'zaflumic',
+    password: 'G6BvDAab5fg09f9J2oqwJik6HKLPvLrz',
     port: 5432,
     ssl: {
         rejectUnauthorized: false, // Esta línea permite la conexión sin validar el certificado SSL (¡no se recomienda en producción!)

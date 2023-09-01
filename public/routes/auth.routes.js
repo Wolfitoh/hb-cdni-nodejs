@@ -21,17 +21,17 @@ module.exports = function (app) {
             const values = [dni];
             const result = await client.query(query, values);
 
+            bcrypt.hash('Pachitea', 10, (err, hash) => {
+                if (err) {
+                    console.error('Error al encriptar la contraseña:', err);
+                } else {
+                    console.log('Contraseña encriptada:', hash);
+                }
+            });
+
             // Verificar si se encontró un usuario
             if (result.rows.length === 1) {
                 const hashedPassword = result.rows[0].password;
-
-                // bcrypt.hash('1234567', 10, (err, hash) => {
-                //     if (err) {
-                //         console.error('Error al encriptar la contraseña:', err);
-                //     } else {
-                //         console.log('Contraseña encriptada:', hash);
-                //     }
-                // });
 
                 // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
                 bcrypt.compare(password, hashedPassword, (err, passwordMatch) => {

@@ -12,28 +12,28 @@ module.exports = function (app) {
     res.sendFile(filePath);
   });
 
+  const defaultUsers = [
+    {
+      dni: "72454145", // DNI del usuario 1
+      password: "$2b$10$Zn46bTnB964RexaZF838/.BSNStnl/dj3ooGaiQ253gNjQt/BEm/q", // Contraseña encriptada con bcrypt ('Pachitea')
+    },
+    {
+      dni: "72043733", // DNI del usuario 2
+      password: "$2b$10$Zn46bTnB964RexaZF838/.BSNStnl/dj3ooGaiQ253gNjQt/BEm/q", // Contraseña encriptada con bcrypt ('Pachitea')
+    },
+    // Puedes agregar más usuarios según sea necesario
+  ];
+
   app.post("/check-credentials", async (req, res) => {
     try {
       const { dni, password } = req.body;
-      // Consulta SQL para obtener la contraseña almacenada del usuario
-      const query = "SELECT dni, password FROM usuario WHERE dni = $1";
-      const values = [dni];
-      const result = await client.query(query, values);
 
-      // bcrypt.hash('Pachitea', 10, (err, hash) => {
-      //     if (err) {
-      //         console.error('Error al encriptar la contraseña:', err);
-      //     } else {
-      //         console.log('Contraseña encriptada:', hash);
-      //     }
-      // });
+      // Buscar el usuario en el array por el DNI
+      const foundUser = defaultUsers.find((user) => user.dni === dni);
 
-      // Verificar si se encontró un usuario
-      if (result.rows.length === 1) {
-        const hashedPassword = result.rows[0].password;
-
-        // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
-        bcrypt.compare(password, hashedPassword, (err, passwordMatch) => {
+      if (foundUser) {
+        // Comparar la contraseña proporcionada con la contraseña almacenada en el array
+        bcrypt.compare(password, foundUser.password, (err, passwordMatch) => {
           if (err) {
             console.error("Error al comparar contraseñas:", err);
             res.status(500).send({
@@ -42,11 +42,14 @@ module.exports = function (app) {
             });
           } else if (passwordMatch) {
             // Contraseña coincidente
-            delete result.rows[0].password;
+            // Puedes devolver información adicional sobre el usuario si es necesario
             res.status(200).send({
               success: true,
               message: "Inicio de sesión exitoso.",
-              user: result.rows[0],
+              user: {
+                dni: foundUser.dni,
+                // Otras propiedades del usuario si es necesario
+              },
             });
           } else {
             // Contraseña incorrecta
@@ -65,7 +68,7 @@ module.exports = function (app) {
         });
       }
     } catch (error) {
-      // Error en la consulta o conexión a la base de datos
+      // Manejo de errores
       console.error("Error al autenticar usuario:", error);
 
       res.status(500).send({

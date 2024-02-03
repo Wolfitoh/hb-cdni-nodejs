@@ -1,4 +1,4 @@
-const client = require("../config/credentials-bd.js");
+// const client = require("../config/credentials-bd.js");
 const path = require("path");
 const bcrypt = require("bcrypt");
 
